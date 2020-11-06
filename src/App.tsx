@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useTodos } from "./hooks";
 
 function App() {
+  const { data: todos, status } = useTodos();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="p-4">
+      <div className="space-y-4">
+        <header className="border-b pb-2">
+          <h1 className="text-3xl tracking-tight font-bold">Todo List</h1>
+        </header>
+        <div>
+          {status === "loading" && <div>Spinner goes here</div>}
+          {status === "success" && (
+            <ul>
+              {todos?.map((todo) => {
+                return <li key={todo.id}>Todo: {todo.id}</li>;
+              })}
+            </ul>
+          )}
+          {status === "error" && <div>Error message goes here</div>}
+        </div>
+      </div>
     </div>
   );
 }
